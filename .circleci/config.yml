@@ -1,5 +1,17 @@
 version: 2.1
 
+commands:
+  update-aws-credentials:
+    description: update the local aws credentials file
+    steps:
+      - run: |
+          mkdir -p ~/.aws
+          cat \<<EOF > ~/.aws/credentials
+          [default]
+          aws_access_key_id = $NON_PROD_AWS_ACCESS_KEY_ID
+          aws_secret_access_key = $NON_PROD_AWS_SECRET_ACCESS_KEY
+          EOF
+
 workflows:
   validate:
     jobs:
@@ -10,15 +22,7 @@ jobs:
     docker:
       - image: norbin/techmesh:0.0.4
     steps:
-      - run:
-          name: "configure aws credentials"
-          command: |
-            mkdir -p ~/.aws
-            cat \<<EOF > ~/.aws/credentials
-            [default]
-            aws_access_key_id = $NON_PROD_AWS_ACCESS_KEY_ID
-            aws_secret_access_key = $NON_PROD_AWS_SECRET_ACCESS_KEY
-            EOF
+      - update-aws-credentials
       - checkout
       - run: 
           name: "init && fmt"
