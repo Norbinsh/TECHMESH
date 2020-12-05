@@ -1,23 +1,28 @@
 version: 2.1
 
-jobs:
-  fmt:
-    docker:
-      - image: norbin/techmesh:0.0.1
-    environment:
-      NAME: $NAME
-      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-    steps:
-      - checkout
-      - run: cd ./terragrunt/non-prod/us-east-1/dev/mesh && terragrunt init
-
 workflows:
-  version: 2
+  version: 2.1
 
   validate:
     jobs:
       - fmt:
           context: aws
+
+jobs:
+  fmt:
+    docker:
+      - image: norbin/techmesh:0.0.3
+    environment:
+      AWS_PROFILE: ${ENV_AWS_PROFILE}
+      AWS_REGION: ${ENV_AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${ENV_AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${ENV_AWS_SECRET_ACCESS_KEY}
+    steps:
+      - checkout
+      - run: cd ./terragrunt/non-prod/us-east-1/dev/mesh && terragrunt init
+      
+            
+
+
 
 
