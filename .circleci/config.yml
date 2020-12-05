@@ -14,4 +14,4 @@ jobs:
       - run: 
           name: "echo an env var that is part of our project"
           command: |
-            echo $MY_ENV_VAR # this env var must be set within the project
+            echo $NON_PROD_AWS_ACCESS_KEY_ID # this env var must be set within the project
