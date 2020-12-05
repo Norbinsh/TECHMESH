@@ -8,7 +8,7 @@ workflows:
 jobs:
   build:
     docker:
-      - image: cimg/base:2020.01
+      - image: norbin/techmesh:0.0.4
     steps:
       - checkout
       - run: 
