@@ -1,0 +1,31 @@
+version: 2.1
+
+commands:
+  update-aws-credentials:
+    description: update the local aws credentials file
+    steps:
+      - run: |
+          mkdir -p ~/.aws
+          cat \<<EOF > ~/.aws/credentials
+          [default]
+          aws_access_key_id = $NON_PROD_AWS_ACCESS_KEY_ID
+          aws_secret_access_key = $NON_PROD_AWS_SECRET_ACCESS_KEY
+          EOF
+
+workflows:
+  validate:
+    jobs:
+      - build
+
+jobs:
+  build:
+    docker:
+      - image: norbin/techmesh:0.0.4
+    steps:
+      - update-aws-credentials
+      - checkout
+      - run: 
+          name: "init && fmt"
+          command: |
+            cd ./terragrunt/non-prod/us-east-1/dev/mesh
+            terragrunt fmt ~/project/terraform
