@@ -4,8 +4,6 @@ jobs:
   build:
     docker:
       - image: norbin/techmesh:latest
-    environment:
-      TEST_VALUE: $TEST_ENV
     steps:
       - run: echo $TEST_VALUE
       - run: pwd && ls
