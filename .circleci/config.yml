@@ -1,7 +1,7 @@
 version: 2.1
 
 workflows:
-  test-env-vars:
+  validate:
     jobs:
       - build
 
@@ -10,8 +10,14 @@ jobs:
     docker:
       - image: norbin/techmesh:0.0.4
     steps:
+      - run:
+          name: "configure aws credentials"
+          command: |
+          export AWS_ACCESS_KEY_ID=$NON_PROD_AWS_ACCESS_KEY_ID
+          export AWS_SECRET_ACCESS_KEY=$NON_PROD_AWS_SECRET_ACCESS_KEY
       - checkout
       - run: 
-          name: "echo an env var that is part of our project"
+          name: "init && fmt"
           command: |
-            echo $NON_PROD_AWS_ACCESS_KEY_ID # this env var must be set within the project
+            cd ./terragrunt/non-prod/us-east-1/dev/mesh
+            terragrunt fmt ~/project/terraform
