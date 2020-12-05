@@ -1,0 +1,21 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: norbin/techmesh:latest
+    environment:
+      TEST_VALUE: $TEST_ENV
+    steps:
+      - run: echo $TEST_VALUE
+      - run: pwd && ls
+      - run: terragrunt --version
+
+workflows:
+  version: 2
+
+  build:
+    jobs:
+      - build
+
+
