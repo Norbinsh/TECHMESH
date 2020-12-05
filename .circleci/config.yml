@@ -1,28 +1,17 @@
 version: 2.1
 
 workflows:
-  version: 2.1
-
-  validate:
+  test-env-vars:
     jobs:
-      - fmt:
-          context: aws
+      - build
 
 jobs:
-  fmt:
+  build:
     docker:
-      - image: norbin/techmesh:0.0.3
-    environment:
-      AWS_PROFILE: ${ENV_AWS_PROFILE}
-      AWS_REGION: ${ENV_AWS_REGION}
-      AWS_ACCESS_KEY_ID: ${ENV_AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${ENV_AWS_SECRET_ACCESS_KEY}
+      - image: cimg/base:2020.01
     steps:
       - checkout
-      - run: cd ./terragrunt/non-prod/us-east-1/dev/mesh && terragrunt init
-      
-            
-
-
-
-
+      - run: 
+          name: "echo an env var that is part of our project"
+          command: |
+            echo $MY_ENV_VAR # this env var must be set within the project
