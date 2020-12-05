@@ -13,8 +13,8 @@ jobs:
       - run:
           name: "configure aws credentials"
           command: |
-          export AWS_ACCESS_KEY_ID=$NON_PROD_AWS_ACCESS_KEY_ID
-          export AWS_SECRET_ACCESS_KEY=$NON_PROD_AWS_SECRET_ACCESS_KEY
+            export AWS_ACCESS_KEY_ID=$NON_PROD_AWS_ACCESS_KEY_ID
+            export AWS_SECRET_ACCESS_KEY=$NON_PROD_AWS_SECRET_ACCESS_KEY
       - checkout
       - run: 
           name: "init && fmt"
